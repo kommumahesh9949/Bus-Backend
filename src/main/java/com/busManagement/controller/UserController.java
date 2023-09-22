@@ -17,6 +17,7 @@ import com.busManagement.entity.BookingDetails;
 import com.busManagement.entity.BusDetails;
 import com.busManagement.entity.Passenger;
 import com.busManagement.entity.User;
+import com.busManagement.exception.UserDoesnotExistException;
 import com.busManagement.exception.UserValidationException;
 import com.busManagement.serviceImpl.UserServiceImpl;
 import com.busManagement.utils.UserAuth;
@@ -99,4 +100,34 @@ public class UserController {
 		Passenger p = service.updatePassenger(passenger);
 		return ResponseEntity.ok().body(p);
 	}
+	 @GetMapping("/getPassenger/{passengerId}")
+	  public ResponseEntity<Passenger> getPassengerById(@PathVariable Integer passengerId) {
+	    Passenger passenger = service.getPassengerById(passengerId);
+	    return new ResponseEntity<>(passenger, HttpStatus.OK);
+	  }
+	 
+//	 @GetMapping("/getUserDetailsForUpdate/{userId}")
+//	 public ResponseEntity<?> getUserDetailsForUpdate(@PathVariable Integer userId)
+//	 {
+//	     try {
+//	         User user = service.getUserDetailsForUpdate(userId);
+//	         return ResponseEntity.ok(user);
+//	     } catch (UserDoesnotExistException e) {
+////	         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//	     }
+//	 }
+	 
+	 @GetMapping("/getUserDetailsForUpdate/{userId}")
+	 public ResponseEntity<?> getUserDetailsForUpdate(@PathVariable Integer userId)
+	 {
+		 try {
+	         User user = service.getUserDetailsForUpdate(userId);
+	         return ResponseEntity.ok(user);
+		 }
+		 catch(UserDoesnotExistException e)
+		 {
+		 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	 }
+	 }
+
 }

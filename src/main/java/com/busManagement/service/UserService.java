@@ -31,4 +31,8 @@ public interface UserService {
 	
 	public Passenger updatePassenger(Passenger passenger);
 
+	public Passenger getPassengerById(Integer passengerId);
+
+	public User getUserDetailsForUpdate(Integer userId);
+
 }

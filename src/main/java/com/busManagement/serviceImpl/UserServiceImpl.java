@@ -8,7 +8,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.busManagement.Repository.*;
+import com.busManagement.Repository.BookingDetailsDao;
+import com.busManagement.Repository.BusDetailsDao;
+import com.busManagement.Repository.PassengerDao;
+import com.busManagement.Repository.UserDao;
 import com.busManagement.entity.BookingDetails;
 import com.busManagement.entity.BusDetails;
 import com.busManagement.entity.Passenger;
@@ -209,6 +212,24 @@ public class UserServiceImpl implements UserService{
 		}
 		passengerDao.save(passenger);
 		return passenger;
+	}
+	
+	@Override
+	  public Passenger getPassengerById(Integer passengerId) {
+	    Optional<Passenger> passenger = passengerDao.findById(passengerId);
+	    if (!passenger.isPresent()) {
+	      throw new PassengerNotFoundException("Passenger not found");
+	    }
+	    return passenger.get();
+	  }
+	
+	@Override
+	public User getUserDetailsForUpdate(Integer userId) {
+	    Optional<User> user = userDao.findById(userId);
+	    if (!user.isPresent()) {
+	        throw new UserDoesnotExistException("Sorry! User not found");
+	    }
+	    return user.get();
 	}
 
 }
